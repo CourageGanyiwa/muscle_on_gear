@@ -1,0 +1,52 @@
+===============================================
+MUSCLE ON GEAR - TEAM ACCESS SYSTEM
+===============================================
+
+This application is restricted to 3 team members only.
+
+CURRENT TEAM MEMBERS:
+=====================
+1. john (password: password123)
+2. sarah (password: password123)
+3. mike (password: password123)
+
+USER MANAGEMENT COMMANDS:
+=========================
+
+Add a new team member:
+    python manage_users.py add <username> <password>
+    Example: python manage_users.py add alex password123
+
+List all team members:
+    python manage_users.py list
+
+Delete a team member:
+    python manage_users.py delete <username>
+    Example: python manage_users.py delete alex
+
+Change a user's password:
+    python manage_users.py change-password <username> <new_password>
+    Example: python manage_users.py change-password john newpass123
+
+RESTRICTIONS:
+=============
+✓ Maximum 3 users allowed
+✓ Public registration is disabled
+✓ Registration page redirects to login
+✓ Only existing team members can access the app
+
+SECURITY FEATURES:
+==================
+✓ Passwords are hashed using SHA-256
+✓ Session-based authentication
+✓ Login required for all pages
+✓ Logout clears session
+
+To change credentials, you can:
+1. Delete a user: python manage_users.py delete <username>
+2. Add a new user: python manage_users.py add <username> <password>
+
+Or change directly:
+    python manage_users.py change-password <username> <new_password>
+
+===============================================

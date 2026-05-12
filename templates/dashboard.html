@@ -1,0 +1,253 @@
+{% extends "layouts/base.html" %} {% block title %}Sales Dashboard - Muscle On
+Gear{% endblock %} {% block extra_styles %}
+<style>
+  .dashboard-header {
+    background: rgba(26, 26, 26, 0.75);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    border-radius: 24px;
+    padding: 26px;
+    box-shadow: 0 24px 60px rgba(15, 23, 42, 0.35);
+    backdrop-filter: blur(14px);
+  }
+
+  .dashboard-header h1 {
+    letter-spacing: -0.03em;
+  }
+
+  .dashboard-header p {
+    color: var(--text-muted);
+    margin-top: 8px;
+  }
+
+  .dashboard-header .btn-group {
+    gap: 12px;
+  }
+
+  .kpi-card {
+    border: 1px solid rgba(239, 68, 68, 0.18);
+    border-radius: 24px;
+    background: rgba(26, 26, 26, 0.82);
+    box-shadow: 0 20px 40px rgba(26, 26, 26, 0.22);
+    padding: 24px;
+    min-height: 150px;
+  }
+
+  .kpi-card h6 {
+    color: var(--text-muted);
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    margin-bottom: 12px;
+  }
+
+  .kpi-card h3 {
+    font-size: 2.2rem;
+  }
+
+  .kpi-card:nth-child(1) {
+    background: linear-gradient(
+      135deg,
+      rgba(239, 68, 68, 0.15),
+      rgba(26, 26, 26, 0.95)
+    );
+  }
+
+  .kpi-card:nth-child(2) {
+    background: linear-gradient(
+      135deg,
+      rgba(239, 68, 68, 0.15),
+      rgba(26, 26, 26, 0.95)
+    );
+  }
+
+  .kpi-card:nth-child(3) {
+    background: linear-gradient(
+      135deg,
+      rgba(239, 68, 68, 0.15),
+      rgba(26, 26, 26, 0.95)
+    );
+  }
+
+  .card-table {
+    border: 1px solid rgba(239, 68, 68, 0.16);
+    border-radius: 24px;
+    overflow: hidden;
+    background: rgba(26, 26, 26, 0.78);
+    backdrop-filter: blur(12px);
+  }
+
+  .card-table .card-header {
+    background: rgba(40, 40, 40, 0.95);
+    border-bottom: 1px solid rgba(239, 68, 68, 0.16);
+  }
+
+  .card-table table {
+    width: 100%;
+    margin: 0;
+  }
+
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 18px;
+    padding: 20px;
+  }
+
+  .product-card {
+    border-radius: 24px;
+    padding: 22px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(239, 68, 68, 0.18);
+    box-shadow: 0 20px 40px rgba(26, 26, 26, 0.16);
+    transition:
+      transform 0.25s ease,
+      box-shadow 0.25s ease,
+      background 0.25s ease;
+  }
+
+  .product-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 24px 50px rgba(15, 23, 42, 0.22);
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  .product-card-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+
+  .product-card-title h6 {
+    margin: 0;
+    font-size: 1.05rem;
+  }
+
+  .product-card-badge {
+    background: rgba(239, 68, 68, 0.14);
+    color: #fca5a5;
+    border-radius: 999px;
+    padding: 4px 10px;
+    font-size: 0.78rem;
+    font-weight: 600;
+  }
+
+  .product-card .text-muted {
+    color: #94a3b8 !important;
+  }
+
+  .product-card .product-metric {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 12px;
+    align-items: center;
+  }
+
+  .product-card .product-metric span {
+    font-size: 0.95rem;
+  }
+
+  .product-card .revenue {
+    color: #34d399;
+    font-weight: 700;
+  }
+
+  .table-responsive {
+    overflow: hidden;
+  }
+</style>
+{% endblock %} {% block content %}
+
+<div class="container py-4">
+  <!-- Header -->
+  <div class="dashboard-header mb-5">
+    <div
+      class="d-flex flex-column flex-md-row justify-content-between align-items-start gap-3"
+    >
+      <div>
+        <h1 class="fw-bold">
+          <span class="text-warning">Muscle On Gear</span> Daily Sales Dashboard
+        </h1>
+        <p class="mb-0">Overview of today's performance</p>
+      </div>
+
+      <div
+        class="btn-group d-flex flex-wrap justify-content-center gap-2 align-items-center pt-2 mt-2 mt-md-0"
+      >
+        <a href="/inventory" class="btn btn-outline-primary rounded"
+          >Inventory</a
+        >
+        <a href="/create-order" class="btn btn-outline-warning rounded"
+          >New Order</a
+        >
+        <a href="/logout" class="btn btn-outline-danger rounded">Logout</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- KPI Cards -->
+  <div class="row g-3 mb-5">
+    <div class="col-md-4">
+      <div class="kpi-card">
+        <h6>Total Sales</h6>
+        <h3 class="fw-bold text-success">R {{ sales }}</h3>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="kpi-card">
+        <h6>Orders</h6>
+        <h3 class="fw-bold text-primary">{{ orders }}</h3>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="kpi-card">
+        <h6>Avg Order</h6>
+        <h3 class="fw-bold text-warning">R {{ avg }}</h3>
+      </div>
+    </div>
+  </div>
+
+  <!-- Top Products -->
+  <div class="card-table">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <h5 class="m-2 p-2">Top Products Today</h5>
+    </div>
+
+    <div class="product-grid">
+      {% for p in products %}
+      <div class="product-card">
+        <div class="product-card-title">
+          <h6 class="fw-bold">{{ p.name }}</h6>
+          <span class="product-card-badge">Top Seller</span>
+        </div>
+        <p class="text-muted mb-3">Fast-moving SKU with strong performance.</p>
+        <div class="product-metric">
+          <span>Units Sold</span>
+          <span class="fw-semibold">{{ p.units_sold }}</span>
+        </div>
+        <div class="product-metric">
+          <span>Revenue</span>
+          <span class="revenue">R {{ p.revenue }}</span>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+<script>
+  // Auto-dismiss flash message toast after 5 seconds
+  document.addEventListener("DOMContentLoaded", function () {
+    const toasts = document.querySelectorAll(".toast");
+    toasts.forEach((toast) => {
+      const bsToast = new bootstrap.Toast(toast);
+      bsToast.show();
+      setTimeout(() => {
+        bsToast.hide();
+      }, 5000);
+    });
+  });
+</script>
+{% endblock %}

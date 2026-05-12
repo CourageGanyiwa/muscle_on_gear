@@ -1,0 +1,133 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% block title %}Muscle On Gear{% endblock %}</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg-start: #0a0a0a;
+        --bg-end: #0d0d0d;
+        --panel: rgba(10, 10, 10, 0.92);
+        --panel-alt: rgba(255, 255, 255, 0.08);
+        --text-muted: #a3b2c7;
+        --accent-red: #ef4444;
+        --accent-red-dark: #dc2626;
+      }
+
+      body {
+        font-family: "Inter", system-ui, sans-serif;
+        background:
+          radial-gradient(
+            circle at top,
+            rgba(239, 68, 68, 0.12),
+            transparent 25%
+          ),
+          linear-gradient(180deg, var(--bg-start) 0%, var(--bg-end) 100%);
+        color: #e2e8f0;
+        margin: 0;
+        min-height: 100vh;
+      }
+
+      .container {
+        padding: 32px 24px;
+        max-width: 1180px;
+      }
+
+      .text-muted {
+        color: var(--text-muted) !important;
+      }
+
+      .btn-success {
+        min-width: 140px;
+        background-color: #ef4444;
+        border-color: #dc2626;
+        color: #ffffff;
+      }
+
+      .btn-success:hover,
+      .btn-success:focus {
+        background-color: #dc2626;
+        border-color: #991b1b;
+      }
+
+      .form-label {
+        color: #e2e8f0 !important;
+      }
+
+      .form-control,
+      .form-select {
+        background: rgba(255, 255, 255, 0.05) !important;
+        border: 1px solid rgba(239, 68, 68, 0.16) !important;
+        color: #e2e8f0 !important;
+      }
+
+      .form-control:focus,
+      .form-select:focus {
+        border-color: #ef4444 !important;
+        box-shadow: 0 0 0 0.2rem rgba(239, 68, 68, 0.18) !important;
+        color: #e2e8f0 !important;
+      }
+
+      .form-select option {
+        background: #1a1a1a;
+        color: #e2e8f0;
+      }
+
+      .form-select option:hover {
+        background: #2a2a2a;
+        color: #e2e8f0;
+      }
+
+      .toast-container {
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        z-index: 9999;
+      }
+
+      .toast {
+        background: rgba(239, 68, 68, 0.18) !important;
+        border: 1px solid rgba(239, 68, 68, 0.3) !important;
+        border-radius: 12px;
+        padding: 16px;
+        min-width: 300px;
+      }
+
+      .toast-body {
+        color: #fca5a5;
+        font-weight: 500;
+      }
+
+      .btn-close-white {
+        filter: brightness(1.2);
+      }
+    </style>
+    {% block extra_styles %}{% endblock %}
+  </head>
+  <body>
+    <!-- Flash Messages -->
+    <div class="toast-container">
+      {% with messages = get_flashed_messages() %} {% if messages %}
+      <div class="toast show" role="alert">
+        <div class="d-flex">
+          <div class="toast-body">{{ messages[0] }}</div>
+          <button
+            type="button"
+            class="btn-close btn-close-white me-2 m-auto"
+            data-bs-dismiss="toast"
+          ></button>
+        </div>
+      </div>
+      {% endif %} {% endwith %}
+    </div>
+
+    {% block content %}{% endblock %}
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

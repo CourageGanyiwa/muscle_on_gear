@@ -1,0 +1,231 @@
+{% extends "layouts/base.html" %} {% block title %}Inventory - Muscle On Gear{%
+endblock %} {% block extra_styles %}
+<style>
+  .page-header {
+    background: rgba(26, 26, 26, 0.78);
+    border: 1px solid rgba(239, 68, 68, 0.14);
+    border-radius: 24px;
+    padding: 24px;
+    box-shadow: 0 28px 60px rgba(26, 26, 26, 0.3);
+    backdrop-filter: blur(12px);
+  }
+
+  .page-header h1 {
+    margin-bottom: 0.5rem;
+  }
+
+  .page-header p {
+    margin-bottom: 0;
+    color: var(--muted);
+  }
+
+  .inventory-card,
+  .stock-card {
+    border-radius: 24px;
+    background: rgba(26, 26, 26, 0.84);
+    border: 1px solid rgba(239, 68, 68, 0.12);
+    box-shadow: 0 22px 44px rgba(26, 26, 26, 0.18);
+  }
+
+  .inventory-card .card-body,
+  .stock-card .card-body {
+    padding: 26px;
+  }
+
+  .inventory-card .form-label,
+  .inventory-card .form-control,
+  .inventory-card .form-select {
+    color: #e2e8f0;
+  }
+
+  .inventory-card .form-control,
+  .inventory-card .form-select {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(239, 68, 68, 0.16);
+  }
+
+  .inventory-card .form-select option {
+    background: #1a1a1a;
+    color: #e2e8f0;
+  }
+
+  .inventory-card .form-select option:hover {
+    background: #2a2a2a;
+    color: #e2e8f0;
+  }
+
+  .inventory-card .form-control:focus,
+  .inventory-card .form-select:focus {
+    border-color: #ef4444;
+    box-shadow: 0 0 0 0.2rem rgba(239, 68, 68, 0.18);
+  }
+
+  .inventory-card .btn-primary,
+  .btn-success {
+    min-width: 150px;
+    border-radius: 999px;
+    background-color: #ef4444;
+    border-color: #dc2626;
+    color: #ffffff;
+  }
+
+  .inventory-card .btn-primary:hover,
+  .btn-success:hover,
+  .inventory-card .btn-primary:focus,
+  .btn-success:focus {
+    background-color: #dc2626;
+    border-color: #991b1b;
+  }
+
+  .stock-card .card-header {
+    background: rgba(40, 40, 40, 0.95);
+    border-bottom: 1px solid rgba(239, 68, 68, 0.16);
+  }
+
+  .stock-card table {
+    color: #e2e8f0 !important;
+  }
+
+  .stock-card .table,
+  .stock-card .table th,
+  .stock-card .table td,
+  .stock-card .table thead th {
+    color: #e2e8f0 !important;
+    background-color: transparent !important;
+  }
+
+  .stock-card .table-light th {
+    background: rgba(40, 40, 40, 0.95) !important;
+    color: #e2e8f0 !important;
+    border-bottom: 1px solid rgba(239, 68, 68, 0.16);
+  }
+
+  .stock-card th,
+  .stock-card td {
+    border-bottom: 1px solid rgba(239, 68, 68, 0.1);
+  }
+
+  .stock-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 14px;
+    padding: 20px;
+  }
+
+  .stock-item {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(148, 163, 184, 0.12);
+    border-radius: 16px;
+    padding: 16px;
+    transition: all 0.2s ease;
+  }
+
+  .stock-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(148, 163, 184, 0.24);
+  }
+
+  .stock-item .product-name {
+    font-weight: 600;
+    color: #e2e8f0;
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+  }
+
+  .stock-item .stock-badge {
+    display: inline-block;
+    background: rgba(239, 68, 68, 0.18);
+    color: #fca5a5;
+    border-radius: 999px;
+    padding: 6px 12px;
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+
+  .stock-card tbody tr:hover {
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  .badge.bg-secondary {
+    background: rgba(148, 163, 184, 0.18) !important;
+    color: #e2e8f0;
+  }
+</style>
+{% endblock %} {% block content %}
+<div class="container py-4">
+  <div class="page-header mb-5">
+    <div
+      class="d-flex flex-column flex-md-row justify-content-between align-items-start gap-3"
+    >
+      <div>
+        <h1 class="fw-bold">Inventory Management</h1>
+        <p>Update stock levels and review current available inventory.</p>
+      </div>
+
+      <a href="/dashboard" class="btn btn-success align-self-start"
+        >Back to Dashboard</a
+      >
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- LEFT: FORM -->
+    <div class="col-md-4">
+      <div class="inventory-card">
+        <div class="card-body">
+          <form method="POST">
+            <label class="form-label">Product</label>
+            <select name="product_id" class="form-select mb-3">
+              {% for p in products %}
+              <option value="{{ p.id }}">{{ p.name }}</option>
+              {% endfor %}
+            </select>
+
+            <label class="form-label">Change Quantity</label>
+            <input
+              type="number"
+              name="change_qty"
+              class="form-control mb-3"
+              placeholder="+10 or -5"
+            />
+
+            <label class="form-label">Reason</label>
+            <input
+              type="text"
+              name="reason"
+              class="form-control mb-3"
+              placeholder="Stock received / sale / adjustment"
+            />
+
+            <button type="submit" class="btn btn-primary w-100">
+              Update Inventory
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: STOCK TABLE -->
+    <div class="col-md-8">
+      <div class="stock-card">
+        <div
+          class="card-header d-flex justify-content-between align-items-center"
+        >
+          <h5 class="mb-0 text-white text-bold p-3">Current Stock</h5>
+        </div>
+
+        <div class="card-body p-0">
+          <div class="stock-grid">
+            {% for p in products %}
+            <div class="stock-item">
+              <div class="product-name">{{ p.name }}</div>
+              <div class="stock-badge">{{ p.quantity or 0 }} units</div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
