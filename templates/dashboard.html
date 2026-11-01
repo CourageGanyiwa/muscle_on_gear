@@ -181,6 +181,12 @@ Gear{% endblock %} {% block extra_styles %}
         <a href="/create-order" class="btn btn-outline-warning rounded"
           >New Order</a
         >
+                <a href="/create-payment" class="btn btn-outline-info rounded"
+          >New Payments</a
+        >
+        <a href="/orders-by-day" class="btn btn-outline-success rounded"
+          >Orders by Day</a
+        >
         <a href="/logout" class="btn btn-outline-danger rounded">Logout</a>
       </div>
     </div>
@@ -192,6 +198,20 @@ Gear{% endblock %} {% block extra_styles %}
       <div class="kpi-card">
         <h6>Total Sales</h6>
         <h3 class="fw-bold text-success">R {{ sales }}</h3>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="kpi-card">
+        <h6>Supplier Total</h6>
+        <h3 class="fw-bold text-info">R {{ supplier_total }}</h3>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="kpi-card">
+        <h6>Profit Margin</h6>
+        <h3 class="fw-bold text-secondary">R {{ profit_margin }}</h3>
       </div>
     </div>
 

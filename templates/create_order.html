@@ -23,9 +23,21 @@ Gear{% endblock %} {% block extra_styles %}
       linear-gradient(180deg, var(--bg-start) 0%, var(--bg-end) 100%);
   }
 
+  @media (max-width: 480px) {
+    body {
+      font-size: 14px;
+    }
+  }
+
   .container {
     padding: 32px 24px;
     max-width: 1140px;
+  }
+
+  @media (max-width: 480px) {
+    .container {
+      padding: 16px 12px;
+    }
   }
 
   .card {
@@ -37,6 +49,12 @@ Gear{% endblock %} {% block extra_styles %}
 
   .card-body {
     padding: 24px;
+  }
+
+  @media (max-width: 480px) {
+    .card-body {
+      padding: 16px;
+    }
   }
 
   .product-card {
@@ -51,6 +69,12 @@ Gear{% endblock %} {% block extra_styles %}
     margin-bottom: 0.75rem;
   }
 
+  @media (max-width: 480px) {
+    .product-card .form-check {
+      margin-bottom: 0.5rem;
+    }
+  }
+
   .product-card .form-label {
     margin-bottom: 0.35rem;
     font-size: 0.95rem;
@@ -60,19 +84,30 @@ Gear{% endblock %} {% block extra_styles %}
     padding: 0.5rem 0.75rem;
   }
 
+  @media (max-width: 480px) {
+    .product-card .form-control {
+      padding: 0.5rem 0.5rem;
+      font-size: 16px;
+    }
+  }
+
   .product-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 18px;
   }
 
-  .product-grid-item {
-    width: 100%;
-  }
-
   @media (max-width: 768px) {
     .product-grid {
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 12px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .product-grid {
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 10px;
     }
   }
 
@@ -80,11 +115,33 @@ Gear{% endblock %} {% block extra_styles %}
     color: #e2e8f0 !important;
   }
 
+  @media (max-width: 480px) {
+    .form-label {
+      font-size: 0.875rem;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+    }
+
+    p {
+      font-size: 0.875rem;
+    }
+  }
+
   .form-control,
   .form-select {
     background: rgba(255, 255, 255, 0.05) !important;
     border: 1px solid rgba(239, 68, 68, 0.16) !important;
     color: #e2e8f0 !important;
+  }
+
+  @media (max-width: 480px) {
+    .form-control,
+    .form-select {
+      font-size: 16px;
+      padding: 0.75rem 0.75rem;
+    }
   }
 
   .form-control:focus,
@@ -135,6 +192,37 @@ Gear{% endblock %} {% block extra_styles %}
   .btn-success:focus {
     background-color: #dc2626 !important;
     border-color: #991b1b !important;
+  }
+
+  @media (max-width: 768px) {
+    .btn {
+      font-size: 0.95rem;
+      padding: 0.5rem 0.75rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .d-flex.flex-column.flex-md-row {
+      flex-direction: column;
+    }
+
+    .d-flex.gap-2 {
+      gap: 0.5rem !important;
+      width: 100%;
+      flex-direction: column;
+    }
+
+    .d-flex.gap-2 .btn {
+      width: 100%;
+    }
+
+    .text-end {
+      text-align: center;
+    }
+
+    .btn-lg {
+      width: 100%;
+    }
   }
 </style>
 {% endblock %} {% block content %}
@@ -214,7 +302,7 @@ Gear{% endblock %} {% block extra_styles %}
               class="form-control"
               name="qty_{{ p.id }}"
               min="0"
-              placeholder="0"
+              placeholder="1"
             />
           </div>
         </div>

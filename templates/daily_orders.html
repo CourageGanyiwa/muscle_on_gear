@@ -1,0 +1,204 @@
+{% extends "layouts/base.html" %} {% block title %}Daily Orders - Muscle On
+Gear{% endblock %} {% block extra_styles %}
+<style>
+  .page-header {
+    background: rgba(26, 26, 26, 0.78);
+    border: 1px solid rgba(239, 68, 68, 0.14);
+    border-radius: 24px;
+    padding: 24px;
+    box-shadow: 0 28px 60px rgba(26, 26, 26, 0.3);
+  }
+
+  .page-header h1 {
+    margin-bottom: 0.5rem;
+  }
+
+  .day-card {
+    margin-bottom: 28px;
+    border-radius: 24px;
+    background: rgba(26, 26, 26, 0.82);
+    border: 1px solid rgba(239, 68, 68, 0.16);
+    box-shadow: 0 22px 44px rgba(26, 26, 26, 0.18);
+  }
+
+  .day-card .card-header {
+    background: rgba(40, 40, 40, 0.95);
+    border-bottom: 1px solid rgba(239, 68, 68, 0.16);
+  }
+
+  .day-table {
+    background: rgba(15, 23, 42, 0.4);
+    min-width: 0;
+    width: 100%;
+    table-layout: fixed;
+  }
+
+  .day-table th,
+  .day-table td {
+    color: #e2e8f0 !important;
+    background: transparent !important;
+    border-bottom: 1px solid rgba(239, 68, 68, 0.1);
+    white-space: normal;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+  }
+
+  .day-table th {
+    vertical-align: bottom;
+  }
+
+  @media (max-width: 768px) {
+    .day-card {
+      margin-bottom: 18px;
+    }
+
+    .card-header.p-4 {
+      padding: 1rem 0.9rem;
+    }
+
+    .card-header.p-4.d-flex {
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      align-items: flex-start;
+    }
+
+    .card-header.p-4 > div:last-child {
+      width: 100%;
+      text-align: left;
+    }
+
+    .day-table th,
+    .day-table td {
+      padding: 0.75rem 0.5rem;
+      font-size: 0.9rem;
+    }
+
+    .table-responsive {
+      overflow-x: hidden;
+    }
+
+    .day-table td ul {
+      padding-left: 1rem;
+    }
+
+    .day-table td ul li {
+      word-break: break-word;
+    }
+  }
+
+  .day-table thead th {
+    background: rgba(40, 40, 40, 0.95) !important;
+    color: #e2e8f0 !important;
+  }
+
+  .day-table tbody tr {
+    background: rgba(255, 255, 255, 0.02);
+  }
+
+  .day-table td ul {
+    margin-bottom: 0;
+  }
+
+  .day-table td ul li {
+    color: #cbd5e1;
+  }
+
+  .total-badge {
+    background: linear-gradient(135deg, #34d399 0%, #10b981 100%);
+    color: #0f172a;
+    font-weight: 800;
+    border-radius: 999px;
+    padding: 0.7rem 1rem;
+    white-space: nowrap;
+  }
+
+  .order-total {
+    color: #34d399;
+    font-weight: 700;
+  }
+
+  .day-summary td {
+    background: rgba(239, 68, 68, 0.08) !important;
+    color: #e2e8f0 !important;
+    font-weight: 700;
+  }
+</style>
+{% endblock %} {% block content %}
+<div class="container py-4">
+  <div class="page-header mb-5">
+    <div
+      class="d-flex flex-column flex-md-row justify-content-between align-items-start gap-3"
+    >
+      <div>
+        <h1 class="fw-bold">Orders by Day</h1>
+        <p>View completed orders grouped by date with each day's total.</p>
+      </div>
+      <div class="d-flex gap-2 flex-wrap align-items-start">
+        <a href="/orders-by-day/export" class="btn btn-outline-light rounded"
+          >Download Text</a
+        >
+        <a href="/dashboard" class="btn btn-success align-self-start"
+          >Back to Dashboard</a
+        >
+      </div>
+    </div>
+  </div>
+
+  {% if day_groups %} {% for group in day_groups %}
+  <div class="day-card">
+    <div
+      class="card-header d-flex justify-content-between align-items-center p-4"
+    >
+      <div>
+        <h5 class="mb-0">{{ group.date }}</h5>
+        <p class="mb-0 text-muted">
+          {{ group.orders|length }} order{{ 's' if group.orders|length != 1 else
+          '' }}
+        </p>
+      </div>
+      <div class="total-badge">Total: R {{ group.daily_total }}</div>
+    </div>
+
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-borderless day-table mb-0">
+          <thead>
+            <tr>
+              <th>Order #</th>
+              <th>Date</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for order in group.orders %}
+            <tr>
+              <td>{{ order.order_id }}</td>
+              <td>{{ order.order_date_str }}</td>
+              <td class="order-total">R {{ order.supplier_total }}</td>
+            </tr>
+            <tr>
+              <td colspan="3" class="px-4 py-2">
+                <div class="small text-muted mb-2">Products ordered:</div>
+                <ul class="mb-0 ps-3">
+                  {% for item in order.products %}
+                  <li>
+                    {{ item.quantity }} x {{ item.name }} @ R {{
+                    item.supplier_price }}
+                  </li>
+                  {% endfor %} {% if order.products|length == 0 %}
+                  <li class="text-muted">No line items found.</li>
+                  {% endif %}
+                </ul>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  {% endfor %} {% else %}
+  <div class="alert alert-secondary">No orders found.</div>
+  {% endif %}
+</div>
+{% endblock %}
