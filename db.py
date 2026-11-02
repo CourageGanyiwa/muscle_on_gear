@@ -10,8 +10,3 @@ def get_db():
         password=os.getenv("MYSQL_PASSWORD"),
         database=os.getenv("MYSQL_DB")
     )
-<<<<<<< HEAD
-=======
-
-print("Hello")
->>>>>>> origin/main
