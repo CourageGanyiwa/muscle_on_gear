@@ -1,7 +1,7 @@
 
-# ==========================================
+
 # PYTHON
-# ==========================================
+
 __pycache__/
 *.py[cod]
 *$py.class
@@ -16,9 +16,9 @@ wheels/
 pip-wheel-metadata/
 share/python-wheels/
 
-# ==========================================
+
 # VIRTUAL ENVIRONMENTS
-# ==========================================
+
 venv/
 .venv/
 env/
@@ -27,39 +27,33 @@ ENV/
 env.bak/
 venv.bak/
 
-# ==========================================
-# ENVIRONMENT VARIABLES / SECRETS
-# ==========================================
+#ENV VARIABLES / SECRETS
+
 .env
 .env.*
 !.env.example
 !.env.sample
 
-# ==========================================
 # FLASK
-# ==========================================
-instance/
+
 .webassets-cache/
 flask_session/
 
-# ==========================================
 # DATABASES
-# ==========================================
+
 *.db
 *.sqlite
 *.sqlite3
-instance/*.db
+instance/
+*.db
 
-# ==========================================
+
 # LOGS
-# ==========================================
-*.log
+log
 logs/
-log/
+*.log/
 
-# ==========================================
 # TESTING / COVERAGE
-# ==========================================
 .pytest_cache/
 .coverage
 .coverage.*
@@ -70,9 +64,8 @@ coverage.xml
 nosetests.xml
 test-results/
 
-# ==========================================
 # TYPE CHECKING / LINTING
-# ==========================================
+
 .mypy_cache/
 .dmypy.json
 .pyre/
@@ -80,14 +73,12 @@ test-results/
 .pytype/
 .pyright/
 
-# ==========================================
 # JUPYTER
-# ==========================================
+
 .ipynb_checkpoints/
 
-# ==========================================
 # IDEs / EDITORS
-# ==========================================
+
 .vscode/
 .idea/
 *.swp
@@ -96,30 +87,24 @@ test-results/
 .project
 .pydevproject
 
-# ==========================================
 # OPERATING SYSTEM
-# ==========================================
 .DS_Store
 Thumbs.db
 Desktop.ini
 
-# ==========================================
+
 # NODE / FRONTEND (IF USED)
-# ==========================================
+
 node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# ==========================================
 # DOCKER
-# ==========================================
 .docker/
 
-# ==========================================
 # TEMPORARY FILES
-# ==========================================
 *.tmp
 *.temp
 *.bak
@@ -129,9 +114,7 @@ yarn-error.log*
 tmp/
 temp/
 
-# ==========================================
 # DEPLOYMENT / LOCAL CONFIGURATION
-# ==========================================
 *.pid
 *.seed
 *.sock
